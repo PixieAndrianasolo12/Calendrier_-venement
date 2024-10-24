@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+@tailwind base; /* Ajoutez cette directive */
+@tailwind components; /* Ajoutez cette directive */
+@tailwind utilities; /* Ajoutez cette directive */
+
+@layer base {
+  body {
+    font-family: "Roboto", sans-serif;
+  }
+
+  .app-main {
+    @apply h-screen w-screen p-4 bg-gradient-to-r from-[#4c6ef5] to-[#f39c12];
+  }
+
+  .app-container {
+    @apply bg-[#343a40] max-w-[500px] w-full m-auto rounded-md p-4 mb-2;
+  }
+
+  h2 {
+    @apply text-3xl font-bold text-center text-white p-4 mb-2;
+  }
+
+  form {
+    @apply flex flex-col; /* Aligne les éléments verticalement */
+  }
+
+  .app-input {
+    @apply border border-[#ced4da] p-4 w-full text-xl rounded-md outline-none placeholder:text-gray-400;
+    @apply text-gray-900; /* Couleur du texte des inputs */
+  }
+
+  .app-input:focus {
+    @apply border-[#2ecc71] shadow-md;
+  }
+
+  .app-button {
+    @apply bg-[#007bff] text-white p-3 rounded-md hover:bg-[#0056b3] transition duration-150 ease-out;
+  }
+
+  .app-button:hover {
+    @apply bg-[#27ae60] translate-y-[-2px];
+  }
+
+  .app-text {
+    @apply mt-4 text-white text-center; /* Applique un style centré pour le texte */
+  }
+}
