@@ -21,22 +21,23 @@ const Calendrier = () => {
     return () => unsubscribe();
   }, []);
 
-  // Function to get events for the selected date
+  
+  // Fonction pour obtenir les événements pour la date sélectionnée
   const getEventsForDate = (date) => {
-    const dateString = date.toISOString().split('T')[0]; // Format "YYYY-MM-DD"
+    const dateString = date.toLocaleDateString('fr-CA');
     return events.filter(event => event.date === dateString);
   };
 
   const handleDateChange = (newDate) => {
     setValue(newDate);
   };
-
   const eventsForDate = getEventsForDate(value);
 
-  // Function to render custom content for each tile
+
+  // Fonction pour rendre un contenu personnalisé pour chaque tuile
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
-      const dateString = date.toISOString().split('T')[0];
+      const dateString = date.toLocaleDateString('fr-CA');
       const eventsForTileDate = events.filter(event => event.date === dateString);
       return eventsForTileDate.length > 0 ? (
         <div className="event-indicator"></div>
@@ -68,7 +69,8 @@ const Calendrier = () => {
           <p className="text-center text-gray-500">Aucun événement pour cette date.</p>
         )}
       </ul>
-      {/* Display all events */}
+
+      {/* Affichage de tous les événements */}
       <h4 className="text-blue-600 text-xl mb-2">Tous les Événements :</h4>
       <ul className="bg-blue-50 rounded-md p-4 border border-gray-300">
         {events.map((event) => (

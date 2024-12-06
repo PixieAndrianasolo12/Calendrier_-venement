@@ -1,0 +1,53 @@
+.users-list {
+    list-style: none; /* Supprime les puces de la liste */
+    padding: 0; /* Supprime le padding par défaut */
+}
+
+.user-item {
+    margin-bottom: 10px; /* Marge en bas entre les éléments de la liste */
+    padding: 15px; /* Padding à l'intérieur des éléments */
+    border: 1px solid #ccc; /* Bordure légère autour des éléments */
+    border-radius: 8px; /* Bords arrondis */
+    background-color: #fff; /* Couleur de fond blanche pour les éléments */
+    display: flex; /* Flexbox pour aligner les éléments */
+    justify-content: space-between; /* Espace entre les éléments */
+    align-items: center; /* Aligner verticalement */
+    transition: box-shadow 0.3s, transform 0.3s; /* Transition douce pour l'ombre et la transformation */
+}
+
+.user-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre lors du survol */
+    transform: translateY(-2px); /* Légère élévation lors du survol */
+}
+
+.user-email {
+    font-weight: bold; /* Met le texte en gras */
+    color: #333; /* Couleur du texte */
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 10px; /* Padding des boutons */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bords arrondis pour les boutons */
+    cursor: pointer; /* Curseur de pointeur pour les boutons */
+    transition: background-color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.edit-button {
+    background-color: #60acdf; /* Couleur de fond pour le bouton d'édition */
+    color: white; /* Couleur du texte */
+}
+
+.edit-button:hover {
+    background-color: #6481e0; /* Couleur plus sombre au survol */
+}
+
+.delete-button {
+    background-color: #f44336; /* Couleur de fond pour le bouton de suppression */
+    color: white; /* Couleur du texte */
+}
+
+.delete-button:hover {
+    background-color: #d32f2f; /* Couleur plus sombre au survol */
+}

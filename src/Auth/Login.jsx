@@ -1,19 +1,21 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import './auth.css'; // Remplacez l'importation ici
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); 
+    const [error, setError] = useState(''); 
+    const navigate = useNavigate();
     const db = getFirestore();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -34,48 +36,71 @@ const Login = () => {
                     navigate('/user-dashboard'); 
                 }
             } else {
-                console.log("Aucun document trouvé !");
+                setError("Aucun document trouvé pour cet utilisateur !");
             }
         } catch (err) {
-            console.log(err);
+            switch (err.code) {
+                case 'auth/wrong-password':
+                    setError("Mot de passe incorrect. Veuillez réessayer.");
+                    break;
+                case 'auth/user-not-found':
+                    setError("Identifiant incorrect. Veuillez vérifier votre email.");
+                    break;
+                case 'auth/invalid-email':
+                    setError("Format d'email invalide.");
+                    break;
+                case 'auth/too-many-requests':
+                    setError("Trop de tentatives de connexion. Veuillez réessayer plus tard.");
+                    break;
+                default:
+                    setError("Erreur lors de la connexion. vérifier votre email ou mot de passe.");
+                    console.error("Erreur non prévue:", err);
+                    break;
+            }
         }
     };
 
     return (
-        <div className='app-main'> {/* Utilisez app-main pour le fond dégradé */}
-            <div className='app-container'> {/* Appliquez le style de conteneur */}
-                <h2 className='text-3xl font-bold mb-6 text-white text-center'>Connexion</h2>
+        <div className='flex items-center justify-center min-h-screen bg-gradient-to-r from-orange-400 to-yellow-400 via-blue-500'>
+            <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md transition-all hover:scale-105 duration-300'>
+                <h2 className='text-4xl font-extrabold mb-6 text-gray-800 text-center'>Connexion</h2>
 
-                <form className='flex flex-col' onSubmit={handleSubmit}>
-                    <label htmlFor="email" className='block mb-2 text-white'>
+                <form className='space-y-4' onSubmit={handleSubmit}>
+                    <label htmlFor="email" className='block text-lg text-gray-700'>
                         Email :
                         <input 
                             type="text" 
                             onChange={(e) => setEmail(e.target.value)} 
-                            className='app-input' // Appliquez le style d'entrée
+                            className='mt-2 w-full p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400' 
                             required 
                         />
                     </label>
 
-                    <label htmlFor="password" className='block mb-2 text-white'>
+                    <label htmlFor="password" className='block text-lg text-gray-700'>
                         Mot de passe :
                         <input 
                             type="password" 
                             onChange={(e) => setPassword(e.target.value)} 
-                            className='app-input' // Appliquez le style d'entrée
+                            className='mt-2 w-full p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400' 
                             required 
                         />
                     </label>
 
+                    {error && (
+                        <p className='text-red-600 bg-red-100 border border-red-500 p-3 rounded text-center'>
+                            {error}
+                        </p>
+                    )}
+
                     <button 
                         type='submit' 
-                        className='app-button mt-4' // Appliquez le style de bouton
+                        className='w-full py-3 bg-blue-600 text-white rounded-md font-semibold text-lg transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400'
                     >
                         Connexion
                     </button>
 
-                    <p className='app-text'>
-                        Vous n'avez pas de compte ? <Link to="/signup" className='text-blue-500 hover:underline'>Inscrivez-vous</Link>
+                    <p className='text-center text-gray-600 mt-6'>
+                        Vous n'avez pas de compte ? <Link to="/signup" className='text-blue-500 font-semibold hover:underline'>Inscrivez-vous</Link>
                     </p>
                 </form>
             </div>
